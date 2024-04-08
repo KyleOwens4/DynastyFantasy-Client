@@ -1,17 +1,22 @@
 import express from "express";
+import "reflect-metadata";
+import { buildSchemaSync } from "type-graphql";
+import { UserResolver } from "./resolvers/UserResolver";
+import { graphqlHTTP } from "express-graphql";
+import dotenv from "dotenv";
 
-const port = 8080;
+dotenv.config();
+
 const app = express();
 
-app.get("/graphql", (req, res) => {
-  res.send("Hello from graphql");
-});
+const schema = buildSchemaSync({ resolvers: [UserResolver] });
 
-app.get("/", (req, res) => {
-  res.send("Hello from express test TSa!!!");
-});
+app.use(
+  "/graphql",
+  graphqlHTTP({ schema, graphiql: Boolean(process.env.SHOW_GRAPHQL_UI) })
+);
 
-app.listen(port, () => {
-  console.log(`Now listening on port ${port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Now listening on port ${process.env.PORT}`);
   console.log("Press Ctrl-C to exit");
 });
