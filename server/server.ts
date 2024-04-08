@@ -9,7 +9,12 @@ dotenv.config();
 
 const app = express();
 
-const schema = buildSchemaSync({ resolvers: [UserResolver] });
+const schema = buildSchemaSync({
+  resolvers: [UserResolver],
+  emitSchemaFile: {
+    path: "./graphql/schema.graphql",
+  },
+});
 
 app.use(
   "/graphql",

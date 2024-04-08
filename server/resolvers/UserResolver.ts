@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-import { Arg, Field, ID, Query } from "type-graphql";
-import { Users } from "../prisma/generated/type-graphql";
+import { Arg, Query } from "type-graphql";
+import { Users } from "../graphql/type-graphql";
 
 const prisma = new PrismaClient();
 
