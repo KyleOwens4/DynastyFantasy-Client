@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8704c0e49d293c326dd37795a0742b32>>
+ * @generated SignedSource<<84540ba8102408c5777ccaef640f30eb>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -33,44 +33,46 @@ var v0 = [
 ],
 v1 = [
   {
-    "alias": null,
-    "args": [
-      {
-        "kind": "Variable",
-        "name": "id",
-        "variableName": "userID"
-      }
-    ],
-    "concreteType": "Users",
-    "kind": "LinkedField",
-    "name": "user",
-    "plural": false,
-    "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "userID",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "firstName",
-        "storageKey": null
-      }
-    ],
-    "storageKey": null
+    "kind": "Variable",
+    "name": "id",
+    "variableName": "userID"
   }
-];
+],
+v2 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "userID",
+  "storageKey": null
+},
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "firstName",
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
     "name": "AppQuery",
-    "selections": (v1/*: any*/),
+    "selections": [
+      {
+        "alias": null,
+        "args": (v1/*: any*/),
+        "concreteType": "User",
+        "kind": "LinkedField",
+        "name": "user",
+        "plural": false,
+        "selections": [
+          (v2/*: any*/),
+          (v3/*: any*/)
+        ],
+        "storageKey": null
+      }
+    ],
     "type": "Query",
     "abstractKey": null
   },
@@ -79,15 +81,36 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "AppQuery",
-    "selections": (v1/*: any*/)
+    "selections": [
+      {
+        "alias": null,
+        "args": (v1/*: any*/),
+        "concreteType": "User",
+        "kind": "LinkedField",
+        "name": "user",
+        "plural": false,
+        "selections": [
+          (v2/*: any*/),
+          (v3/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "id",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      }
+    ]
   },
   "params": {
-    "cacheID": "625d359f9295bb8ca15adcb35a47c69e",
+    "cacheID": "3442006b1cb35d3b21a0ea33725a9a6a",
     "id": null,
     "metadata": {},
     "name": "AppQuery",
     "operationKind": "query",
-    "text": "query AppQuery(\n  $userID: Float!\n) {\n  user(id: $userID) {\n    userID\n    firstName\n  }\n}\n"
+    "text": "query AppQuery(\n  $userID: Float!\n) {\n  user(id: $userID) {\n    userID\n    firstName\n    id\n  }\n}\n"
   }
 };
 })();

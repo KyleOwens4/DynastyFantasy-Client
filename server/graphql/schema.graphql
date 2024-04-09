@@ -3,11 +3,16 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-type Query {
-  user(id: Float!): Users!
+interface Node {
+  id: ID!
 }
 
-type Users {
+type Query {
+  user(id: Float!): User!
+}
+
+type User implements Node {
   firstName: String!
-  userID: Int!
+  id: ID!
+  userID: Float!
 }

@@ -14,7 +14,7 @@ const AppQuery = graphql`
 function App() {
   const data = useLazyLoadQuery<AppQueryType>(AppQuery, { userID: 1 });
 
-  return <p>{data.user.userID}</p>;
+  return <p>{data.user.firstName}</p>;
 }
 
 export default App;

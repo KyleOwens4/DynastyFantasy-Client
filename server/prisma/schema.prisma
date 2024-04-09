@@ -7,12 +7,7 @@ generator client {
   provider = "prisma-client-js"
 }
 
-generator typegraphql {
-  provider = "typegraphql-prisma"
-  output = "../graphql/type-graphql"
-}
-
 model Users {
-  userID Int @id @default(autoincrement()) @map("UserID")
-  firstName String @map("FirstName")
+  id String @id @default(uuid())
+  firstName String 
 }
