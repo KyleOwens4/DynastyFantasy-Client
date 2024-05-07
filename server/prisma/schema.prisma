@@ -8,6 +8,6 @@ generator client {
 }
 
 model Users {
-  id String @id @default(uuid())
+  userID Int @id @default(autoincrement())
   firstName String 
 }
