@@ -8,7 +8,7 @@
     "build": "relay-compiler --validate && tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "relay": "relay-compiler"
+    "relay": "relay-compiler --watch ./relay.config.json"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.2.1",
