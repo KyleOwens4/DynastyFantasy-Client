@@ -8,6 +8,7 @@ interface Node {
 }
 
 type Query {
+  node(id: ID!): Node
   user(id: ID!): User!
 }
 

@@ -9,14 +9,14 @@ export function CreateUUID(tableName: string, id: number) {
 }
 
 export function ParseUUID(uuid: string): {
-  tableName: string;
+  typeName: string;
   primaryKey: number;
 } {
-  const [tableName, primaryKey] = Buffer.from(uuid, "base64")
+  const [typeName, primaryKey] = Buffer.from(uuid, "base64")
     .toString("ascii")
     .split(":");
 
-  if (!tableName || !primaryKey) throw new UUIDParsingError(uuid);
+  if (!typeName || !primaryKey) throw new UUIDParsingError(uuid);
 
-  return { tableName, primaryKey: parseInt(primaryKey) };
+  return { typeName, primaryKey: parseInt(primaryKey) };
 }

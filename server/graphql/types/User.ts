@@ -6,7 +6,7 @@ import { CreateUUID } from "../utils/RelayUUIDs";
 export class User implements Node {
   @Field((_type) => ID!)
   id() {
-    return CreateUUID("Users", this.userID);
+    return CreateUUID("User", this.userID);
   }
 
   @Field((_type) => Int!)

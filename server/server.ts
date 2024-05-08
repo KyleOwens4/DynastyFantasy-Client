@@ -4,13 +4,15 @@ import { buildSchemaSync } from "type-graphql";
 import { UserResolver } from "./resolvers/UserResolver";
 import { graphqlHTTP } from "express-graphql";
 import dotenv from "dotenv";
+import { DyntasyResolvers } from "./resolvers/ResolverIndex";
+import { NodeResolver } from "./resolvers/NodeResolver";
 
 dotenv.config();
 
 const app = express();
 
 const schema = buildSchemaSync({
-  resolvers: [UserResolver],
+  resolvers: DyntasyResolvers,
   emitSchemaFile: {
     path: "./graphql/schema.graphql",
   },

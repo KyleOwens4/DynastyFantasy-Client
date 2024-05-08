@@ -22,6 +22,6 @@ export class UserResolver implements NodeResolver {
     });
     if (!user) return null;
 
-    return { ...user, id: CreateUUID("Users", user.userID) };
+    return { ...user, id};
   }
 }
