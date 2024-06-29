@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<659e7f1cf815652309ebf8118bc641ba>>
+ * @generated SignedSource<<49c0c7e2ef95fc50287639b3490ea601>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,6 +14,11 @@ export type AppQuery$data = {
   readonly profilesCollection: {
     readonly edges: ReadonlyArray<{
       readonly cursor: string;
+      readonly node: {
+        readonly comment: string | null | undefined;
+        readonly id: number;
+        readonly nodeId: string;
+      };
     }>;
   } | null | undefined;
 };
@@ -46,6 +51,38 @@ var v0 = [
             "kind": "ScalarField",
             "name": "cursor",
             "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "profiles",
+            "kind": "LinkedField",
+            "name": "node",
+            "plural": false,
+            "selections": [
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "nodeId",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "comment",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "id",
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
           }
         ],
         "storageKey": null
@@ -72,16 +109,16 @@ return {
     "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "c5800b0cc02d2a5ab17c1165aa893aef",
+    "cacheID": "562183d2d984ad5e45e8a38a39f92f74",
     "id": null,
     "metadata": {},
     "name": "AppQuery",
     "operationKind": "query",
-    "text": "query AppQuery {\n  profilesCollection {\n    edges {\n      cursor\n    }\n  }\n}\n"
+    "text": "query AppQuery {\n  profilesCollection {\n    edges {\n      cursor\n      node {\n        nodeId\n        comment\n        id\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "aed6cc96c18bc8a9a19fc591324ffe58";
+(node as any).hash = "ffafba2fee82f3f5f200cfc16277bb4d";
 
 export default node;

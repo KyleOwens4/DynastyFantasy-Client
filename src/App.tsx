@@ -1,10 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import { graphql } from "relay-runtime";
+import { useLazyLoadQuery } from "react-relay";
+import { AppQuery as AppQueryType } from "./__generated__/AppQuery.graphql";
+
+const AppQuery = graphql`
+  query AppQuery {
+    profilesCollection {
+      edges {
+        cursor
+        node {
+          nodeId
+          comment
+          id
+        }
+      }
+    }
+  }
+`;
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+
+  const data = useLazyLoadQuery<AppQueryType>(AppQuery, {});
 
   return (
     <>
@@ -26,10 +46,10 @@ function App() {
         </p>
       </div>
       <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
+        {data.profilesCollection?.edges[0].node.comment}
       </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
