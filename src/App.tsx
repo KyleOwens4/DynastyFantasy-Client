@@ -46,7 +46,7 @@ function App() {
         </p>
       </div>
       <p className="read-the-docs">
-        {data.profilesCollection?.edges[0].node.comment}
+        {data.profilesCollection?.edges[0].node.id}
       </p>
     </>
   );
