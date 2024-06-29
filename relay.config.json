@@ -15,5 +15,6 @@
     "BigFloat": "string",
     "Opaque": "any"
   },
+  "artifactDirectory": "./data/__generated__/",
   "eagerEsModules": true
 }

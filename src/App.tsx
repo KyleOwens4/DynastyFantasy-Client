@@ -4,7 +4,7 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import { graphql } from "relay-runtime";
 import { useLazyLoadQuery } from "react-relay";
-import { AppQuery as AppQueryType } from "./__generated__/AppQuery.graphql";
+import { AppQuery as AppQueryType } from "../data/__generated__/AppQuery.graphql";
 
 const AppQuery = graphql`
   query AppQuery {
@@ -13,7 +13,6 @@ const AppQuery = graphql`
         cursor
         node {
           nodeId
-          comment
           id
         }
       }
@@ -46,7 +45,7 @@ function App() {
         </p>
       </div>
       <p className="read-the-docs">
-        {data.profilesCollection?.edges[0].node.id}
+        {data.profilesCollection?.edges[0].node.nodeId}
       </p>
     </>
   );

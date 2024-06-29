@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<49c0c7e2ef95fc50287639b3490ea601>>
+ * @generated SignedSource<<114b4fa38c652948d5385743c661dd51>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,7 +15,6 @@ export type AppQuery$data = {
     readonly edges: ReadonlyArray<{
       readonly cursor: string;
       readonly node: {
-        readonly comment: string | null | undefined;
         readonly id: number;
         readonly nodeId: string;
       };
@@ -71,13 +70,6 @@ var v0 = [
                 "alias": null,
                 "args": null,
                 "kind": "ScalarField",
-                "name": "comment",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
                 "name": "id",
                 "storageKey": null
               }
@@ -109,16 +101,16 @@ return {
     "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "562183d2d984ad5e45e8a38a39f92f74",
+    "cacheID": "d6053921cbefa5654dab51e68e22a88d",
     "id": null,
     "metadata": {},
     "name": "AppQuery",
     "operationKind": "query",
-    "text": "query AppQuery {\n  profilesCollection {\n    edges {\n      cursor\n      node {\n        nodeId\n        comment\n        id\n      }\n    }\n  }\n}\n"
+    "text": "query AppQuery {\n  profilesCollection {\n    edges {\n      cursor\n      node {\n        nodeId\n        id\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "ffafba2fee82f3f5f200cfc16277bb4d";
+(node as any).hash = "31992abb16ff2692661ec29429f41d85";
 
 export default node;
