@@ -20,7 +20,7 @@ function App() {
   const data = useLazyLoadQuery<AppQueryType>(AppQuery, {});
 
   return (
-    <div className="bg-red-500 text-white">
+    <div className="bg-red-500 text-white text-sm">
       {data.profilesCollection?.edges[0].node.nodeId}
     </div>
   );
