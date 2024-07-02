@@ -12,8 +12,6 @@ const fetchQuery: FetchFunction = async (operation, variables) => {
     data: { session },
   } = await supabase.auth.getSession();
 
-  console.log(SUPABASE_ANON_KEY);
-  console.log(SUPABASE_URL);
   const response = await fetch(`${SUPABASE_URL}/graphql/v1`, {
     method: "POST",
     headers: {
