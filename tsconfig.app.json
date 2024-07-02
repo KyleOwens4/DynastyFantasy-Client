@@ -23,5 +23,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "data/__generated__"]
+  "include": ["src", "data/__generated__", "vite-env.d.ts"]
 }

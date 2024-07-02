@@ -1,5 +1,5 @@
 import { RelayEnvironmentProvider } from "react-relay";
-import environment from "./RelayEnvironment";
+import environment from "./relay/RelayEnvironment";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
