@@ -13,6 +13,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <MantineProvider
       theme={{
         fontFamily: "Inter var, " + defaultTheme.fontFamily.sans.join(", "),
+        primaryColor: "emerald",
+        primaryShade: 4,
         colors: {
           slate: [
             "#f8fafc",
@@ -25,6 +27,18 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             "#334155",
             "#1e293b",
             "#0f172a",
+          ],
+          emerald: [
+            "#ecfdf5",
+            "#d1fae5",
+            "#a7f3d0",
+            "#6ee7b7",
+            "#34d399",
+            "#10b981",
+            "#059669",
+            "#047857",
+            "#065f46",
+            "#064e3b",
           ],
         },
       }}
