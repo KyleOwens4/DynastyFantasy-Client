@@ -1,6 +1,7 @@
 import {
   Anchor,
   Button,
+  Center,
   Divider,
   Paper,
   PasswordInput,
@@ -12,6 +13,7 @@ import { isEmail, matches, useForm } from "@mantine/form";
 import PasswordConditions, {
   ValidateNewPassword,
 } from "../components/auth/PasswordConditions";
+import { Link } from "react-router-dom";
 
 export enum AccountFormView {
   signin,
@@ -24,17 +26,19 @@ type Props = {
 
 export default function AccountForm({ variant }: Props) {
   return (
-    <Paper
-      shadow="md"
-      radius={"md"}
-      className="flex flex-col space-y-4 w-[50%] px-8 py-4 items-center"
-    >
-      <AccountFormHeader variant={variant} />
-      <OAuthButtons />
-      <Divider label={<span className="font-bold">or</span>} />
-      <EmailAccountForm variant={variant} />
-      <AccountFormFooter variant={variant} />
-    </Paper>
+    <Center className="grow">
+      <Paper
+        shadow="md"
+        radius={"md"}
+        className="flex flex-col space-y-4 w-[50%] max-w-[500px] px-8 py-4 items-center"
+      >
+        <AccountFormHeader variant={variant} />
+        <OAuthButtons />
+        <Divider label={<span className="font-bold">or</span>} />
+        <EmailAccountForm variant={variant} />
+        <AccountFormFooter variant={variant} />
+      </Paper>
+    </Center>
   );
 }
 
@@ -125,7 +129,7 @@ function EmailAccountForm({ variant }: Props) {
       <PasswordConditions
         password={form.values.password}
         shouldShow={
-          variant === AccountFormView.signin && form.isTouched("password")
+          variant === AccountFormView.signup && form.isTouched("password")
         }
       />
       <Button mt={20} size="lg" type="submit">
@@ -140,13 +144,16 @@ function AccountFormFooter({ variant }: Props) {
     variant === AccountFormView.signin
       ? "Don't have an account? "
       : "Have an account? ";
-  const anchorText =
+  const linkText =
     variant === AccountFormView.signin ? "Sign Up" : "Sign In Now";
+  const link = variant === AccountFormView.signin ? "/signup" : "/signin";
 
   return (
     <p className="text-sm text-center">
       {helpText}
-      <Anchor size="sm">{anchorText}</Anchor>
+      <Link className="text-emerald-400" to={link}>
+        {linkText}
+      </Link>
     </p>
   );
 }
