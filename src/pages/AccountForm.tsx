@@ -8,7 +8,10 @@ import {
 } from "@mantine/core";
 import BrandGoogle from "../assets/BrandGoogle";
 import { Facebook } from "lucide-react";
-import { useForm } from "@mantine/form";
+import { isEmail, matches, useForm } from "@mantine/form";
+import PasswordConditions, {
+  ValidateNewPassword,
+} from "../components/auth/PasswordConditions";
 
 export enum AccountFormView {
   signin,
@@ -74,6 +77,64 @@ function OAuthButtons() {
   );
 }
 
+function EmailAccountForm({ variant }: Props) {
+  const form = useForm({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validate: {
+      email: isEmail("Enter a valid email"),
+      password: (value) => ValidateNewPassword(value).errorMessage,
+    },
+    validateInputOnBlur: true,
+  });
+
+  const buttonText = variant === AccountFormView.signin ? "Sign In" : "Sign Up";
+
+  const handleSubmit = (values: typeof form.values) => {
+    console.log(values);
+  };
+
+  return (
+    <form
+      className="flex flex-col space-y-2"
+      onSubmit={form.onSubmit(handleSubmit)}
+    >
+      <TextInput
+        label="Email"
+        placeholder="you@example.com"
+        labelProps={{ mb: 5 }}
+        {...form.getInputProps("email")}
+      />
+      <PasswordInput
+        label={
+          <div className="flex flex-row justify-between items-center">
+            <p className="text-sm text-slate-800 font-medium">Password</p>
+            {variant === AccountFormView.signin && (
+              <Button variant="transparent" size="compact-xs" p={0}>
+                Forgot Password?
+              </Button>
+            )}
+          </div>
+        }
+        labelProps={{ w: "100%", mb: 5 }}
+        placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+        {...form.getInputProps("password")}
+      />
+      <PasswordConditions
+        password={form.values.password}
+        shouldShow={
+          variant === AccountFormView.signin && form.isTouched("password")
+        }
+      />
+      <Button mt={20} size="lg" type="submit">
+        {buttonText}
+      </Button>
+    </form>
+  );
+}
+
 function AccountFormFooter({ variant }: Props) {
   const helpText =
     variant === AccountFormView.signin
@@ -88,51 +149,4 @@ function AccountFormFooter({ variant }: Props) {
       <Anchor size="sm">{anchorText}</Anchor>
     </p>
   );
-}
-
-function EmailAccountForm({ variant }: Props) {
-  const form = useForm({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-  });
-
-  const buttonText = variant === AccountFormView.signin ? "Sign In" : "Sign Up";
-
-  const handleSubmit = (values: typeof form.values) => {
-    console.log(values);
-  };
-
-  return (
-    <form
-      className="flex flex-col space-y-2"
-      onSubmit={form.onSubmit(handleSubmit)}
-    >
-      <TextInput label="Email" />
-      <PasswordInput
-        label={
-          <div className="flex flex-row justify-between items-center">
-            <p className="text-sm text-slate-800 font-medium">Password</p>
-            {variant === AccountFormView.signin && (
-              <Button variant="transparent">Forgot Password?</Button>
-            )}
-          </div>
-        }
-        labelProps={{ w: "100%" }}
-        {...form.getInputProps("password")}
-      />
-      {variant === AccountFormView.signin && (
-        <PasswordConditions password={form.values.password} />
-      )}
-      <Button mt={20} size="lg">
-        {buttonText}
-      </Button>
-    </form>
-  );
-}
-
-function PasswordConditions({ password }: { password: string }) {
-  console.log(password);
-  return <p>{password}</p>;
 }
