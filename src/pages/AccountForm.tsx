@@ -1,5 +1,4 @@
 import {
-  Anchor,
   Button,
   Center,
   Divider,
@@ -9,11 +8,14 @@ import {
 } from "@mantine/core";
 import BrandGoogle from "../assets/BrandGoogle";
 import { Facebook } from "lucide-react";
-import { isEmail, matches, useForm } from "@mantine/form";
+import { isEmail, useForm } from "@mantine/form";
 import PasswordConditions, {
   ValidateNewPassword,
 } from "../components/auth/PasswordConditions";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useAuthentication from "../hooks/auth/useAuthentication";
+import { useEffect } from "react";
+import { supabase } from "../supabase/supabase";
 
 export enum AccountFormView {
   signin,
@@ -25,6 +27,15 @@ type Props = {
 };
 
 export default function AccountForm({ variant }: Props) {
+  const { isAuthenticated } = useAuthentication();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated]);
+
   return (
     <Center className="grow">
       <Paper
@@ -82,28 +93,50 @@ function OAuthButtons() {
 }
 
 function EmailAccountForm({ variant }: Props) {
+  const buttonText = variant === AccountFormView.signin ? "Sign In" : "Sign Up";
+
   const form = useForm({
     initialValues: {
       email: "",
       password: "",
     },
-    validate: {
-      email: isEmail("Enter a valid email"),
-      password: (value) => ValidateNewPassword(value).errorMessage,
-    },
+    validate:
+      variant === AccountFormView.signin
+        ? {}
+        : {
+            email: isEmail("Enter a valid email"),
+            password: (value) => ValidateNewPassword(value).errorMessage,
+          },
     validateInputOnBlur: true,
   });
 
-  const buttonText = variant === AccountFormView.signin ? "Sign In" : "Sign Up";
+  const onSignUp = async (values: typeof form.values) => {
+    const { data, error } = await supabase.auth.signUp({
+      email: values.email,
+      password: values.password,
+      options: {
+        emailRedirectTo: "/",
+      },
+    });
 
-  const handleSubmit = (values: typeof form.values) => {
-    console.log(values);
+    console.log(data, error);
+  };
+
+  const onSignIn = async (values: typeof form.values) => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: values.email,
+      password: values.password,
+    });
+
+    console.log(data, error);
   };
 
   return (
     <form
       className="flex flex-col space-y-2"
-      onSubmit={form.onSubmit(handleSubmit)}
+      onSubmit={form.onSubmit(
+        variant === AccountFormView.signin ? onSignIn : onSignUp
+      )}
     >
       <TextInput
         label="Email"
@@ -146,7 +179,8 @@ function AccountFormFooter({ variant }: Props) {
       : "Have an account? ";
   const linkText =
     variant === AccountFormView.signin ? "Sign Up" : "Sign In Now";
-  const link = variant === AccountFormView.signin ? "/signup" : "/signin";
+  const link =
+    variant === AccountFormView.signin ? "/auth/signup" : "/auth/signin";
 
   return (
     <p className="text-sm text-center">

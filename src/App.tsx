@@ -1,7 +1,8 @@
 import { AppShell } from "@mantine/core";
 import Header from "./components/shell/Header";
-import { RouterProvider } from "react-router-dom";
-import { router } from "./Router";
+import { Outlet, RouterProvider } from "react-router-dom";
+import useAuthentication from "./hooks/auth/useAuthentication";
+import buildRouter from "./FantasyReferenceRouter";
 
 function App() {
   return (
@@ -11,7 +12,7 @@ function App() {
       </AppShell.Header>
 
       <AppShell.Main className="flex">
-        <RouterProvider router={router} />
+        <Outlet />
       </AppShell.Main>
     </AppShell>
   );
