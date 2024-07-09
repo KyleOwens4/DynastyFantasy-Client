@@ -5,7 +5,7 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from "react-router-dom";
-import AccountForm, { AccountFormView } from "./pages/AccountForm";
+import Authentication, { AuthenticationView } from "./pages/Authentication";
 import { AppShell } from "@mantine/core";
 import Header from "./components/shell/Header";
 import useAuthentication from "./hooks/auth/useAuthentication";
@@ -31,11 +31,11 @@ function buildRouter(isAuthenticated: boolean) {
           children: [
             {
               path: "signin",
-              element: <AccountForm variant={AccountFormView.signin} />,
+              element: <Authentication variant={AuthenticationView.signin} />,
             },
             {
               path: "signup",
-              element: <AccountForm variant={AccountFormView.signup} />,
+              element: <Authentication variant={AuthenticationView.signup} />,
             },
             {
               index: true,

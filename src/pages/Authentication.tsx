@@ -18,16 +18,16 @@ import useAuthentication from "../hooks/auth/useAuthentication";
 import { useEffect, useState } from "react";
 import { supabase } from "../supabase/supabase";
 
-export enum AccountFormView {
+export enum AuthenticationView {
   signin,
   signup,
 }
 
 type Props = {
-  variant: AccountFormView;
+  variant: AuthenticationView;
 };
 
-export default function AccountForm({ variant }: Props) {
+export default function Authentication({ variant }: Props) {
   const { isAuthenticated } = useAuthentication();
   const navigate = useNavigate();
 
@@ -56,9 +56,9 @@ export default function AccountForm({ variant }: Props) {
 
 function AccountFormHeader({ variant }: Props) {
   const header =
-    variant === AccountFormView.signin ? "Welcome back" : "Get started";
+    variant === AuthenticationView.signin ? "Welcome back" : "Get started";
   const subHeader =
-    variant === AccountFormView.signin
+    variant === AuthenticationView.signin
       ? "Sign in to your account"
       : "Create a new account";
 
@@ -105,7 +105,7 @@ function EmailAccountForm({ variant }: Props) {
       password: "",
     },
     validate:
-      variant === AccountFormView.signin
+      variant === AuthenticationView.signin
         ? {}
         : {
             email: isEmail("Enter a valid email"),
@@ -114,7 +114,8 @@ function EmailAccountForm({ variant }: Props) {
     validateInputOnBlur: true,
   });
 
-  const buttonText = variant === AccountFormView.signin ? "Sign In" : "Sign Up";
+  const buttonText =
+    variant === AuthenticationView.signin ? "Sign In" : "Sign Up";
 
   useEffect(() => {
     setError(null);
@@ -124,8 +125,10 @@ function EmailAccountForm({ variant }: Props) {
 
   const onSubmit = async (values: typeof form.values) => {
     setError(null);
+    setMesssage(null);
     setLoading(true);
-    variant === AccountFormView.signin ? onSignIn(values) : onSignUp(values);
+
+    variant === AuthenticationView.signin ? onSignIn(values) : onSignUp(values);
   };
 
   const onSignUp = async (values: typeof form.values) => {
@@ -171,6 +174,7 @@ function EmailAccountForm({ variant }: Props) {
         {...form.getInputProps("email")}
         onChange={(event) => {
           setError(null);
+          setMesssage(null);
           form.setFieldValue("email", event.target.value);
         }}
       />
@@ -179,7 +183,7 @@ function EmailAccountForm({ variant }: Props) {
         label={
           <div className="flex flex-row justify-between items-center">
             <p className="text-sm text-slate-800 font-medium">Password</p>
-            {variant === AccountFormView.signin && (
+            {variant === AuthenticationView.signin && (
               <Button variant="transparent" size="compact-xs" p={0}>
                 Forgot Password?
               </Button>
@@ -190,13 +194,14 @@ function EmailAccountForm({ variant }: Props) {
         placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
         onChange={(event) => {
           setError(null);
+          setMesssage(null);
           form.setFieldValue("password", event.target.value);
         }}
       />
       <PasswordConditions
         password={form.values.password}
         shouldShow={
-          variant === AccountFormView.signup && form.isTouched("password")
+          variant === AuthenticationView.signup && form.isTouched("password")
         }
       />
 
@@ -224,7 +229,7 @@ function EmailAccountForm({ variant }: Props) {
             color="rose.6"
             icon={<Lock />}
             title={`${
-              variant === AccountFormView.signin ? "Login" : "Sign up"
+              variant === AuthenticationView.signin ? "Login" : "Sign up"
             } error`}
           >
             {error ? error : " "}
@@ -237,13 +242,13 @@ function EmailAccountForm({ variant }: Props) {
 
 function AccountFormFooter({ variant }: Props) {
   const helpText =
-    variant === AccountFormView.signin
+    variant === AuthenticationView.signin
       ? "Don't have an account? "
       : "Have an account? ";
   const linkText =
-    variant === AccountFormView.signin ? "Sign Up" : "Sign In Now";
+    variant === AuthenticationView.signin ? "Sign Up" : "Sign In Now";
   const link =
-    variant === AccountFormView.signin ? "/auth/signup" : "/auth/signin";
+    variant === AuthenticationView.signin ? "/auth/signup" : "/auth/signin";
 
   return (
     <p className="text-sm text-center">
