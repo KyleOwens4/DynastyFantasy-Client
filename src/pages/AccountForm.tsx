@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   Center,
   Divider,
@@ -7,14 +8,14 @@ import {
   TextInput,
 } from "@mantine/core";
 import BrandGoogle from "../assets/BrandGoogle";
-import { Facebook } from "lucide-react";
+import { Facebook, Lock } from "lucide-react";
 import { isEmail, useForm } from "@mantine/form";
 import PasswordConditions, {
   ValidateNewPassword,
 } from "../components/auth/PasswordConditions";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuthentication from "../hooks/auth/useAuthentication";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "../supabase/supabase";
 
 export enum AccountFormView {
@@ -93,8 +94,11 @@ function OAuthButtons() {
 }
 
 function EmailAccountForm({ variant }: Props) {
-  const buttonText = variant === AccountFormView.signin ? "Sign In" : "Sign Up";
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [message, setMesssage] = useState<string | null>(null);
 
+  const location = useLocation();
   const form = useForm({
     initialValues: {
       email: "",
@@ -110,8 +114,25 @@ function EmailAccountForm({ variant }: Props) {
     validateInputOnBlur: true,
   });
 
+  const buttonText = variant === AccountFormView.signin ? "Sign In" : "Sign Up";
+
+  useEffect(() => {
+    setError(null);
+    setLoading(false);
+    form.reset();
+  }, [location]);
+
+  const onSubmit = async (values: typeof form.values) => {
+    setError(null);
+    setLoading(true);
+    variant === AccountFormView.signin ? onSignIn(values) : onSignUp(values);
+  };
+
   const onSignUp = async (values: typeof form.values) => {
-    const { data, error } = await supabase.auth.signUp({
+    const {
+      data: { user, session },
+      error,
+    } = await supabase.auth.signUp({
       email: values.email,
       password: values.password,
       options: {
@@ -119,32 +140,42 @@ function EmailAccountForm({ variant }: Props) {
       },
     });
 
-    console.log(data, error);
+    if (error) {
+      setError(error.message);
+    } else if (user && !session) {
+      setMesssage("Check your email for the confirmation link");
+    }
+
+    setLoading(false);
   };
 
   const onSignIn = async (values: typeof form.values) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email: values.email,
       password: values.password,
     });
 
-    console.log(data, error);
+    if (error) setError(error.message);
+    setLoading(false);
   };
 
   return (
     <form
       className="flex flex-col space-y-2"
-      onSubmit={form.onSubmit(
-        variant === AccountFormView.signin ? onSignIn : onSignUp
-      )}
+      onSubmit={form.onSubmit(onSubmit)}
     >
       <TextInput
         label="Email"
         placeholder="you@example.com"
         labelProps={{ mb: 5 }}
         {...form.getInputProps("email")}
+        onChange={(event) => {
+          setError(null);
+          form.setFieldValue("email", event.target.value);
+        }}
       />
       <PasswordInput
+        {...form.getInputProps("password")}
         label={
           <div className="flex flex-row justify-between items-center">
             <p className="text-sm text-slate-800 font-medium">Password</p>
@@ -157,7 +188,10 @@ function EmailAccountForm({ variant }: Props) {
         }
         labelProps={{ w: "100%", mb: 5 }}
         placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
-        {...form.getInputProps("password")}
+        onChange={(event) => {
+          setError(null);
+          form.setFieldValue("password", event.target.value);
+        }}
       />
       <PasswordConditions
         password={form.values.password}
@@ -165,9 +199,38 @@ function EmailAccountForm({ variant }: Props) {
           variant === AccountFormView.signup && form.isTouched("password")
         }
       />
-      <Button mt={20} size="lg" type="submit">
+
+      <Button mt={20} size="lg" type="submit" loading={loading}>
         {buttonText}
       </Button>
+      <div
+        className={`${
+          message ? "max-h-[300px]" : "max-h-0"
+        } overflow-y-hidden transition-all`}
+      >
+        {
+          <Alert icon={<Lock />} title={"success"}>
+            {message ? message : " "}
+          </Alert>
+        }
+      </div>
+      <div
+        className={`${
+          error ? "max-h-[300px]" : "max-h-0"
+        } overflow-y-hidden transition-all`}
+      >
+        {
+          <Alert
+            color="rose.6"
+            icon={<Lock />}
+            title={`${
+              variant === AccountFormView.signin ? "Login" : "Sign up"
+            } error`}
+          >
+            {error ? error : " "}
+          </Alert>
+        }
+      </div>
     </form>
   );
 }
