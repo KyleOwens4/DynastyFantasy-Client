@@ -1,8 +1,6 @@
 import { AppShell } from "@mantine/core";
 import Header from "./components/shell/Header";
-import { Outlet, RouterProvider } from "react-router-dom";
-import useAuthentication from "./hooks/auth/useAuthentication";
-import buildRouter from "./FantasyReferenceRouter";
+import { Outlet } from "react-router-dom";
 
 function App() {
   return (

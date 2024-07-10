@@ -7,6 +7,7 @@ import "@mantine/core/styles.css";
 import { MantineProvider } from "@mantine/core";
 import defaultTheme from "tailwindcss/defaultTheme";
 import FantasyReferenceRouter from "./FantasyReferenceRouter.tsx";
+import AuthenticationProvider from "./providers/AuthenticationProvider.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <RelayEnvironmentProvider environment={environment}>
@@ -56,7 +57,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       }}
     >
       <React.StrictMode>
-        <FantasyReferenceRouter />
+        <AuthenticationProvider>
+          <FantasyReferenceRouter />
+        </AuthenticationProvider>
       </React.StrictMode>
     </MantineProvider>
   </RelayEnvironmentProvider>

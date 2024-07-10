@@ -13,8 +13,7 @@ import { isEmail, useForm } from "@mantine/form";
 import PasswordConditions, {
   ValidateNewPassword,
 } from "../components/auth/PasswordConditions";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import useAuthentication from "../hooks/auth/useAuthentication";
+import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "../supabase/supabase";
 
@@ -28,15 +27,6 @@ type Props = {
 };
 
 export default function Authentication({ variant }: Props) {
-  const { isAuthenticated } = useAuthentication();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/");
-    }
-  }, [isAuthenticated]);
-
   return (
     <Center className="grow">
       <Paper
